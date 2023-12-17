@@ -2,13 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  height: 100%;
+html {
+  display: grid;
+  min-height: 100%;
 }
 
 @layer base {
   :root {
+    --light-blue: #388bff;
+    --blue: #0c66e4;
+    --blue-hover: #0055cc;
+    --dark-blue: #172b4d;
+
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
 
@@ -36,7 +41,6 @@ body {
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
-
     --radius: 0.5rem;
   }
 
@@ -76,6 +80,33 @@ body {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-neutral-800;
   }
+}
+
+.container {
+  @apply mx-auto px-4 md:px-8;
+}
+
+/* Clerk */
+.cl-organizationPreviewMainIdentifier {
+  max-width: 150px;
+}
+
+.cl-internal-hnodbb {
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.cl-internal-883ypp {
+  margin-left: -6px;
+}
+
+.cl-internal-1ggj9kb {
+  flex-wrap: wrap;
+  row-gap: 5px;
+}
+
+.cl-internal-1rlbgp6 {
+  flex-grow: 1;
 }
