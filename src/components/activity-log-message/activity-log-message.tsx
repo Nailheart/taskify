@@ -11,6 +11,8 @@ type Props = {
 };
 
 const ActivityLogMessage: FC<Props> = ({ auditLog }) => {
+  const message = genrateActivityLogMessage(auditLog);
+
   return (
     <div className="flex items-center gap-x-2">
       <Avatar className="h-8 w-8">
@@ -19,12 +21,12 @@ const ActivityLogMessage: FC<Props> = ({ auditLog }) => {
           <UserIcon />
         </AvatarFallback>
       </Avatar>
-      <div className="flex flex-col space-y-0.5">
-        <p className="text-sm text-muted-foreground">
+      <div className="grid grid-cols-1 space-y-0.5">
+        <p className="truncate text-sm text-muted-foreground">
           <span className="font-semibold lowercase text-neutral-700">
             {auditLog.userName}
           </span>{" "}
-          {genrateActivityLogMessage(auditLog)}
+          <span title={message}>{message}</span>
         </p>
         <p className="text-xs text-muted-foreground">
           {format(new Date(auditLog.createdAt), "MMM d, yyyy 'at' h:mm a")}
