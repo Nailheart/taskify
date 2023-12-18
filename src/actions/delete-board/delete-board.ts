@@ -16,7 +16,8 @@ const deleteBoard = async ({ id }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -36,9 +37,15 @@ const deleteBoard = async ({ id }: Props) => {
       entityType: ENTITY_TYPE.BOARD,
       action: ACTION.DELETE,
     });
+    return {
+      type: "success",
+      message: "Board successfully deleted.",
+      data: board,
+    };
   } catch (error) {
     return {
-      error: "Failed to delete board.",
+      type: "error",
+      message: "Failed to delete board.",
     };
   }
 };

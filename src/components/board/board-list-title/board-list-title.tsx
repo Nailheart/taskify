@@ -63,8 +63,18 @@ const BoardListTitle: FC<Props> = ({ listId, boardId, listTitle }) => {
     setTitle(newTitle);
 
     try {
-      await updateListTitle({ title: newTitle, listId, boardId });
-      toast.success("List title successfully updated.");
+      const { type, message } = await updateListTitle({
+        title: newTitle,
+        listId,
+        boardId,
+      });
+
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
+      toast.success(message);
     } catch (error) {
       toast.error("Uh oh! Something went wrong.");
     }

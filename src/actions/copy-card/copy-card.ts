@@ -17,7 +17,8 @@ const copyCard = async ({ cardId, boardId }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -34,7 +35,10 @@ const copyCard = async ({ cardId, boardId }: Props) => {
     });
 
     if (!cardToCopy) {
-      return { error: "Card not found" };
+      return {
+        type: "error",
+        message: "Card not found.",
+      };
     }
 
     const lastCard = await db.card.findFirst({
@@ -62,10 +66,15 @@ const copyCard = async ({ cardId, boardId }: Props) => {
     });
 
     revalidatePath(`/board/${boardId}`);
-    return card;
+    return {
+      type: "success",
+      message: "Card successfully copied.",
+      data: card,
+    };
   } catch (error) {
     return {
-      error: "Failed to copy card.",
+      type: "error",
+      message: "Failed to copy card.",
     };
   }
 };

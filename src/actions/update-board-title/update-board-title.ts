@@ -17,7 +17,8 @@ const updateBoardTitle = async ({ boardId, title }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -40,10 +41,15 @@ const updateBoardTitle = async ({ boardId, title }: Props) => {
     });
 
     revalidatePath(`/board/${boardId}`);
-    return board;
+    return {
+      type: "success",
+      message: "Board title successfully updated.",
+      data: board,
+    };
   } catch (error) {
     return {
-      error: "Failed to update board title.",
+      type: "error",
+      message: "Failed to update board title.",
     };
   }
 };

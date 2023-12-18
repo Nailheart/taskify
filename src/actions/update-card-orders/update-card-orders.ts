@@ -14,7 +14,8 @@ const updateCardOrders = async ({ cards }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -38,10 +39,15 @@ const updateCardOrders = async ({ cards }: Props) => {
 
     const updatedCards = await db.$transaction(transaction);
 
-    return updatedCards;
+    return {
+      type: "success",
+      message: "Card successfully reordered.",
+      data: updatedCards,
+    };
   } catch (error) {
     return {
-      error: "Failed to reorder.",
+      type: "error",
+      message: "Failed to reorder cards.",
     };
   }
 };

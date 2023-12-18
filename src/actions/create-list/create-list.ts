@@ -17,7 +17,8 @@ const createList = async ({ title, boardId }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -31,7 +32,8 @@ const createList = async ({ title, boardId }: Props) => {
 
     if (!board) {
       return {
-        error: "Board not found",
+        type: "error",
+        message: "Board not found.",
       };
     }
 
@@ -59,10 +61,15 @@ const createList = async ({ title, boardId }: Props) => {
     });
 
     revalidatePath(`/board/${boardId}`);
-    return list;
+    return {
+      type: "success",
+      message: "List successfully created.",
+      data: list,
+    };
   } catch (error) {
     return {
-      error: "Failed to create list.",
+      type: "error",
+      message: "Failed to create list.",
     };
   }
 };

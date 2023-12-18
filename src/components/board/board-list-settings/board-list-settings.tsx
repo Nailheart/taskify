@@ -24,9 +24,15 @@ const BoardListSettings: FC<Props> = ({ boardId, listId }: Props) => {
 
   const handleCopyList = async () => {
     try {
-      await copyList({ listId, boardId });
+      const { type, message } = await copyList({ listId, boardId });
+
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
       refClose.current?.click();
-      toast.success("List successfully copied.");
+      toast.success(message);
     } catch (error) {
       toast.error("Uh oh! Something went wrong.");
     }
@@ -34,9 +40,15 @@ const BoardListSettings: FC<Props> = ({ boardId, listId }: Props) => {
 
   const handleDeleteList = async () => {
     try {
-      await deleteList({ listId, boardId });
+      const { type, message } = await deleteList({ listId, boardId });
+
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
       refClose.current?.click();
-      toast.success("List successfully deleted.");
+      toast.success(message);
     } catch (error) {
       toast.error("Uh oh! Something went wrong.");
     }

@@ -24,7 +24,8 @@ const createBoard = async ({ title, image }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -40,7 +41,8 @@ const createBoard = async ({ title, image }: Props) => {
     !imageLinkHTML
   ) {
     return {
-      error: "Missing fields. Failed to create board.",
+      type: "error",
+      message: "Missing fields. Failed to create board.",
     };
   }
 
@@ -67,10 +69,15 @@ const createBoard = async ({ title, image }: Props) => {
     });
 
     revalidatePath(`/organization/${orgId}`);
-    return board;
+    return {
+      type: "success",
+      message: "Board successfully created.",
+      data: board,
+    };
   } catch (error) {
     return {
-      error: "Failed to create board.",
+      type: "error",
+      message: "Failed to create board.",
     };
   }
 };

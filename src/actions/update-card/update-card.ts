@@ -19,7 +19,8 @@ const updateCard = async ({ cardId, boardId, title, description }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -47,10 +48,15 @@ const updateCard = async ({ cardId, boardId, title, description }: Props) => {
     });
 
     revalidatePath(`/board/${boardId}`);
-    return card;
+    return {
+      type: "success",
+      message: "Card successfully updated.",
+      data: card,
+    };
   } catch (error) {
     return {
-      error: "Failed to update.",
+      type: "error",
+      message: "Failed to update card.",
     };
   }
 };

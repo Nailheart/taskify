@@ -17,7 +17,8 @@ const deleteCard = async ({ cardId, boardId }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -41,10 +42,15 @@ const deleteCard = async ({ cardId, boardId }: Props) => {
     });
 
     revalidatePath(`/board/${boardId}`);
-    return card;
+    return {
+      type: "success",
+      message: "Card successfully deleted.",
+      data: card,
+    };
   } catch (error) {
     return {
-      error: "Failed to delete.",
+      type: "error",
+      message: "Failed to delete card.",
     };
   }
 };

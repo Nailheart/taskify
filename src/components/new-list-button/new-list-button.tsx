@@ -51,7 +51,6 @@ const NewListButton: FC<Props> = ({ boardId, canvasRef }: Props) => {
   });
   useOnClickOutside(formRef, handleEditEnd);
 
-  // TODO: fix scroll
   const handleSrollToRight = () => {
     setTimeout(() => {
       if (canvasRef.current) {
@@ -65,17 +64,17 @@ const NewListButton: FC<Props> = ({ boardId, canvasRef }: Props) => {
 
     if (!title) return;
 
-    try {
-      await createList({ title, boardId });
+    const { type, message } = await createList({ title, boardId });
 
-      form.setFocus("title");
-      form.reset();
-      handleSrollToRight();
-
-      toast.success("List successfully created.");
-    } catch (error) {
-      toast.error("Uh oh! Something went wrong.");
+    if (type === "error") {
+      toast.error(message);
+      return;
     }
+
+    form.setFocus("title");
+    form.reset();
+    handleSrollToRight();
+    toast.success(message);
   };
 
   if (isEditing) {

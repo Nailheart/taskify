@@ -17,7 +17,8 @@ const copyList = async ({ listId, boardId }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -36,7 +37,10 @@ const copyList = async ({ listId, boardId }: Props) => {
     });
 
     if (!listToCopy) {
-      return { error: "List not found" };
+      return {
+        type: "error",
+        message: "List  not found.",
+      };
     }
 
     const lastList = await db.list.findFirst({
@@ -75,10 +79,15 @@ const copyList = async ({ listId, boardId }: Props) => {
     });
 
     revalidatePath(`/board/${boardId}`);
-    return list;
+    return {
+      type: "success",
+      message: "List successfully copied.",
+      data: list,
+    };
   } catch (error) {
     return {
-      error: "Failed to copy list.",
+      type: "error",
+      message: "Failed to copy list.",
     };
   }
 };

@@ -57,14 +57,21 @@ const BoardTitle: FC<Props> = ({ boardId, boardTitle }) => {
   const onSubmit = async (data: FieldValues) => {
     const newTitle = data.title;
 
-    console.log("submit");
-
     if (!newTitle || newTitle === boardTitle) return;
     setTitle(newTitle);
 
     try {
-      await updateBoardTitle({ title: newTitle, boardId });
-      toast.success("Board title successfully updated.");
+      const { type, message } = await updateBoardTitle({
+        title: newTitle,
+        boardId,
+      });
+
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
+      toast.success(message);
     } catch (error) {
       toast.error("Uh oh! Something went wrong.");
     }

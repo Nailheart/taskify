@@ -18,7 +18,8 @@ const createCard = async ({ listId, boardId, cardTitle }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -34,7 +35,8 @@ const createCard = async ({ listId, boardId, cardTitle }: Props) => {
 
     if (!list) {
       return {
-        error: "List not found",
+        type: "error",
+        message: "List not found.",
       };
     }
 
@@ -62,10 +64,15 @@ const createCard = async ({ listId, boardId, cardTitle }: Props) => {
     });
 
     revalidatePath(`/board/${boardId}`);
-    return card;
+    return {
+      type: "success",
+      message: "Card successfully created.",
+      data: card,
+    };
   } catch (error) {
     return {
-      error: "Failed to create.",
+      type: "error",
+      message: "Failed to create card.",
     };
   }
 };

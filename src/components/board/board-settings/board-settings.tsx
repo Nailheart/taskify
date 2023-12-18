@@ -23,7 +23,13 @@ const BoardSettings: FC<Props> = ({ boardId }: Props) => {
 
   const handleDeleteBoard = async () => {
     try {
-      await deleteBoard({ id: boardId });
+      const { type, message } = await deleteBoard({ id: boardId });
+
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
       toast.success("Board successfully deleted.");
       router.replace("/");
     } catch (error) {

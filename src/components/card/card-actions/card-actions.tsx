@@ -19,9 +19,18 @@ const CardActions: FC<Props> = ({ card }) => {
 
   const handleCopyCard = async () => {
     try {
-      await copyCard({ cardId: card.id, boardId: card.list.boardId });
+      const { type, message } = await copyCard({
+        cardId: card.id,
+        boardId: card.list.boardId,
+      });
+
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
       onClose();
-      toast.success("Card successfully copied.");
+      toast.success(message);
     } catch (error) {
       toast.error("Uh oh! Something went wrong.");
     }
@@ -29,9 +38,18 @@ const CardActions: FC<Props> = ({ card }) => {
 
   const handleDeleteCard = async () => {
     try {
-      await deleteCard({ cardId: card.id, boardId: card.list.boardId });
+      const { type, message } = await deleteCard({
+        cardId: card.id,
+        boardId: card.list.boardId,
+      });
+
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
       onClose();
-      toast.success("Card successfully deleted.");
+      toast.success(message);
     } catch (error) {
       toast.error("Uh oh! Something went wrong.");
     }

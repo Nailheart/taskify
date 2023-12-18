@@ -14,7 +14,8 @@ const updateListOrders = async ({ lists }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -35,10 +36,15 @@ const updateListOrders = async ({ lists }: Props) => {
 
     const updatedLists = await db.$transaction(transaction);
 
-    return updatedLists;
+    return {
+      type: "success",
+      message: "List successfully reordered.",
+      data: updatedLists,
+    };
   } catch (error) {
     return {
-      error: "Failed to reorder lists.",
+      type: "error",
+      message: "Failed to reorder lists.",
     };
   }
 };

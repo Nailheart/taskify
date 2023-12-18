@@ -17,7 +17,8 @@ const deleteList = async ({ listId, boardId }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -40,9 +41,15 @@ const deleteList = async ({ listId, boardId }: Props) => {
     });
 
     revalidatePath(`/board/${boardId}`);
+    return {
+      type: "success",
+      message: "List successfully deleted.",
+      data: list,
+    };
   } catch (error) {
     return {
-      error: "Failed to delete list.",
+      type: "error",
+      message: "Failed to delete list.",
     };
   }
 };

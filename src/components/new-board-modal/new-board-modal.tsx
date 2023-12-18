@@ -53,22 +53,16 @@ const NewBoardModal = () => {
       return;
     }
 
-    try {
-      const board = await createBoard({ title, image });
+    const { type, message } = await createBoard({ title, image });
 
-      if (board) {
-        if ("error" in board) {
-          toast.error(`${board.error}`);
-          return;
-        }
-      }
-
-      onClose();
-      toast.success("Board successfully created.");
-      form.reset();
-    } catch (error) {
-      toast.error("Uh oh! Something went wrong.");
+    if (type === "error") {
+      toast.error(message);
+      return;
     }
+
+    onClose();
+    form.reset();
+    toast.success(message);
   };
 
   return (

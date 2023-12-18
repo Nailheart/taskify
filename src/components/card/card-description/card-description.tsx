@@ -42,11 +42,17 @@ const CardDescription: FC<Props> = ({ card }) => {
     if (description === card.description) return;
 
     try {
-      await updateCard({
+      const { type, message } = await updateCard({
         cardId: card.id,
         boardId: card.list.boardId,
         description,
       });
+
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
       // refetch card data
       queryClient.invalidateQueries({
         queryKey: ["card", card.id],
@@ -54,8 +60,9 @@ const CardDescription: FC<Props> = ({ card }) => {
       queryClient.invalidateQueries({
         queryKey: ["card-audit-logs", card.id],
       });
+
       handleEditEnd();
-      toast.success("Card description successfully updated.");
+      toast.success(message);
     } catch (error) {
       toast.error("Uh oh! Something went wrong.");
     }

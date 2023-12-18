@@ -18,7 +18,8 @@ const updateListTitle = async ({ title, listId, boardId }: Props) => {
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
+      type: "error",
+      message: "Unauthorized",
     };
   }
 
@@ -44,10 +45,15 @@ const updateListTitle = async ({ title, listId, boardId }: Props) => {
     });
 
     revalidatePath(`/board/${boardId}`);
-    return list;
+    return {
+      type: "success",
+      message: "List title successfully updated.",
+      data: list,
+    };
   } catch (error) {
     return {
-      error: "Failed to update list title.",
+      type: "error",
+      message: "Failed to update list title.",
     };
   }
 };

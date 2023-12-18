@@ -13,7 +13,6 @@ import {
   updateCardSchema,
 } from "@/validation-schemas/update-card-schema";
 import { InputForm } from "@/components/input-form/input-form";
-import { useOnClickOutside } from "usehooks-ts";
 
 type Props = {
   card: CardWithList;
@@ -41,11 +40,17 @@ const CardTitle: FC<Props> = ({ card }) => {
     if (!title || title === card.title) return;
 
     try {
-      await updateCard({
+      const { type, message } = await updateCard({
         cardId: card.id,
         boardId: card.list.boardId,
         title,
       });
+
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
       // refetch card data
       queryClient.invalidateQueries({
         queryKey: ["card", card.id],
@@ -53,7 +58,8 @@ const CardTitle: FC<Props> = ({ card }) => {
       queryClient.invalidateQueries({
         queryKey: ["card-audit-logs", card.id],
       });
-      toast.success("Card title successfully updated.");
+
+      toast.success(message);
     } catch (error) {
       toast.error("Uh oh! Something went wrong.");
     }
