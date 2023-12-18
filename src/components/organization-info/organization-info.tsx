@@ -29,7 +29,6 @@ const OrganizationInfo: React.FC<Props> = ({ isPro }) => {
     );
   }
 
-  // TODO:
   if (!organization) {
     return <h1>There is empty...</h1>;
   }

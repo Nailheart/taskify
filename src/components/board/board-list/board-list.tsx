@@ -17,7 +17,6 @@ type Props = {
   cards?: Card[];
 };
 
-// TODO: when card have two row of text scroll is apear
 const BoardList: FC<Props> = ({ listId, boardId, listTitle, index, cards }) => {
   return (
     <Draggable draggableId={listId} index={index}>
@@ -52,6 +51,7 @@ const BoardList: FC<Props> = ({ listId, boardId, listTitle, index, cards }) => {
                     cardId={card.id}
                     title={card.title}
                     index={index}
+                    hasDescription={Boolean(card.description)}
                   />
                 ))}
                 {provided.placeholder}

@@ -22,7 +22,6 @@ const copyList = async ({ listId, boardId }: Props) => {
   }
 
   try {
-    // TODO: mb list from props
     const listToCopy = await db.list.findUnique({
       where: {
         id: listId,
@@ -46,7 +45,6 @@ const copyList = async ({ listId, boardId }: Props) => {
       select: { order: true },
     });
 
-    // TODO:
     const order = lastList ? lastList.order + 1 : 1;
 
     const list = await db.list.create({

@@ -85,7 +85,6 @@ model AuditLog {
   updatedAt   DateTime  @updatedAt
 }
 
-// TODO: rename to BoardLimit
 model OrgLimit {
   id          String @id @default(uuid())
   orgId       String @unique

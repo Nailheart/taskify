@@ -51,7 +51,7 @@ const NewListButton: FC<Props> = ({ boardId, canvasRef }: Props) => {
   });
   useOnClickOutside(formRef, handleEditEnd);
 
-  // TODO: mb use zustand to handle lists and remove revalidate
+  // TODO: fix scroll
   const handleSrollToRight = () => {
     setTimeout(() => {
       if (canvasRef.current) {
