@@ -15,7 +15,8 @@ const SubscriptionModal = () => {
 
   const handleSubscription = async () => {
     try {
-      const stripe = await stripeRedirect();
+      const location = window.location.href;
+      const stripe = await stripeRedirect({ location });
 
       if (stripe.type === "error") {
         toast.error(stripe.message);

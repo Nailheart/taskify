@@ -16,7 +16,11 @@ const isOrganizationLimitReached = async () => {
     where: { orgId },
   });
 
-  if (!orgLimit || orgLimit.count >= MAX_FREE_BOARDS) {
+  if (!orgLimit) {
+    return false; // limit not reached
+  }
+
+  if (orgLimit.count >= MAX_FREE_BOARDS) {
     return true;
   } else {
     return false;

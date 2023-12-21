@@ -4,10 +4,13 @@ import { auth, currentUser } from "@clerk/nextjs";
 
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
-import { absoluteUrl } from "@/helpers/absolute-url";
 import { currency, description, price, title } from "@/constants/stripe";
 
-const stripeRedirect = async () => {
+type Props = {
+  location: string;
+};
+
+const stripeRedirect = async ({ location }: Props) => {
   const { userId, orgId } = auth();
   const user = await currentUser();
 
@@ -18,7 +21,7 @@ const stripeRedirect = async () => {
     };
   }
 
-  const settingsUrl = absoluteUrl(`/organization/${orgId}`);
+  const settingsUrl = location;
 
   let url = "";
 
