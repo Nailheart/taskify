@@ -1,16 +1,34 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { useSubsriptionModal } from "@/hooks/use-subscription-modal";
+import { stripeRedirect } from "@/actions/stripe-redirect/stripe-redirect";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const SubscriptionModal = () => {
+  const router = useRouter();
   const { isOpen, onClose } = useSubsriptionModal();
 
-  const handleSubscription = () => {};
+  const handleSubscription = async () => {
+    try {
+      const stripe = await stripeRedirect();
+
+      if (stripe.type === "error") {
+        toast.error(stripe.message);
+        return;
+      }
+
+      if (stripe.data) {
+        router.push(stripe.data);
+      }
+    } catch (error) {
+      toast.error("Uh oh! Something went wrong.");
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

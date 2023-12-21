@@ -1,8 +1,9 @@
+"use server";
+
 import { auth } from "@clerk/nextjs";
 
 import { db } from "@/lib/db";
-
-const DAY_IN_MS = 86_400_000;
+import { DAY_IN_MS } from "@/constants/date";
 
 const checkSubscription = async () => {
   const { orgId } = auth();
@@ -16,10 +17,10 @@ const checkSubscription = async () => {
       orgId,
     },
     select: {
+      stripePriceId: true,
+      stripeCustomerId: true,
       stripeSubscriptionId: true,
       stripeCurrentPeriodEnd: true,
-      stripeCustomerId: true,
-      stripePriceId: true,
     },
   });
 

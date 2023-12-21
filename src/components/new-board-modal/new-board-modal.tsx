@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNewBoardModal } from "@/hooks/use-new-board-modal";
 import { useSubsriptionModal } from "@/hooks/use-subscription-modal";
 import { createBoard } from "@/actions/create-board/create-board";
-import { isOrganizationLimitReached } from "@/actions/is-organization-limit-reached/is-organization-limit-reached";
 import {
   TCreateBoardSchema,
   createBoardSchema,
@@ -43,26 +42,26 @@ const NewBoardModal = () => {
     const title = data.title;
     const image = JSON.parse(data.image);
 
-    const isLimitReached = await isOrganizationLimitReached();
+    try {
+      const { type, message } = await createBoard({ title, image });
 
-    if (isLimitReached) {
-      onOpenSubModal();
-      toast.error(
-        "You have reached your limit of free boards. Please upgrade to create more.",
-      );
-      return;
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
+      if (type === "subscription") {
+        onOpenSubModal();
+        toast.error(message);
+        return;
+      }
+
+      onClose();
+      form.reset();
+      toast.success(message);
+    } catch (error) {
+      toast.error("Uh oh! Something went wrong.");
     }
-
-    const { type, message } = await createBoard({ title, image });
-
-    if (type === "error") {
-      toast.error(message);
-      return;
-    }
-
-    onClose();
-    form.reset();
-    toast.success(message);
   };
 
   return (

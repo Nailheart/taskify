@@ -7,6 +7,8 @@ import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { db } from "@/lib/db";
 import { createAuditLog } from "@/actions/create-audit-log/create-audit-log";
 import { incrementOrganizationLimit } from "@/actions/incremet-organization-limit/incremet-organization-limit";
+import { checkSubscription } from "@/actions/check-subscription/check-subscription";
+import { isOrganizationLimitReached } from "@/actions/is-organization-limit-reached/is-organization-limit-reached";
 
 type Props = {
   title: string;
@@ -47,6 +49,20 @@ const createBoard = async ({ title, image }: Props) => {
   }
 
   try {
+    const isPro = await checkSubscription();
+
+    if (!isPro) {
+      const isLimitReached = await isOrganizationLimitReached();
+
+      if (isLimitReached) {
+        return {
+          type: "subscription",
+          message:
+            "You have reached your limit of free boards. Please upgrade to create more.",
+        };
+      }
+    }
+
     const board = await db.board.create({
       data: {
         title,
@@ -59,7 +75,9 @@ const createBoard = async ({ title, image }: Props) => {
       },
     });
 
-    await incrementOrganizationLimit();
+    if (!isPro) {
+      await incrementOrganizationLimit();
+    }
 
     await createAuditLog({
       entityTitle: board.title,

@@ -8,10 +8,11 @@ import { useNewBoardModal } from "@/hooks/use-new-board-modal";
 import { MAX_FREE_BOARDS } from "@/constants/boards";
 
 type Props = {
+  isPro?: boolean;
   organizationLimit: number;
 };
 
-const NewBoardButton: FC<Props> = ({ organizationLimit }) => {
+const NewBoardButton: FC<Props> = ({ isPro, organizationLimit }) => {
   const { onOpen } = useNewBoardModal();
 
   return (
@@ -22,17 +23,21 @@ const NewBoardButton: FC<Props> = ({ organizationLimit }) => {
       >
         <span className="mb-1 font-semibold">Create new board</span>
         <span className="text-sm">
-          {`${MAX_FREE_BOARDS - organizationLimit} remaining`}
+          {isPro
+            ? "Unlimited"
+            : `${MAX_FREE_BOARDS - organizationLimit} remaining`}
         </span>
       </button>
-      <HintTooltip
-        className="absolute bottom-4 right-4"
-        content="Free workspaces can have up to 5 open boards. For unlimited boards
-            upgrade this workspace to PRO."
-        sideOffset={10}
-      >
-        <HelpCircleIcon className="h-4 w-4" />
-      </HintTooltip>
+      {!isPro && (
+        <HintTooltip
+          className="absolute bottom-4 right-4"
+          content="Free workspaces can have up to 5 open boards. For unlimited boards
+              upgrade this workspace to PRO."
+          sideOffset={10}
+        >
+          <HelpCircleIcon className="h-4 w-4" />
+        </HintTooltip>
+      )}
     </div>
   );
 };

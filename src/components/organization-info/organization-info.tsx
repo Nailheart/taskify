@@ -13,7 +13,7 @@ type Props = {
 const OrganizationInfo: React.FC<Props> = ({ isPro }) => {
   const { organization, isLoaded } = useOrganization();
 
-  if (!isLoaded) {
+  if (!isLoaded || !organization) {
     return (
       <div className="flex items-center gap-x-4">
         <Skeleton className="h-[60px] w-[60px]" />
@@ -27,10 +27,6 @@ const OrganizationInfo: React.FC<Props> = ({ isPro }) => {
         </div>
       </div>
     );
-  }
-
-  if (!organization) {
-    return <h1>There is empty...</h1>;
   }
 
   return (

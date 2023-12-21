@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/navbar/navbar";
 import { NewBoardModal } from "@/components/new-board-modal/new-board-modal";
 import { CardModal } from "@/components/card-modal/card-modal";
-import { SubscriptionModal } from "@/components/subcription-modal/subscription-modal";
+import { SubscriptionModal } from "@/components/subscription-modal/subscription-modal";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (

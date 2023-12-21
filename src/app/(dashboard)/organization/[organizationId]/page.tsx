@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { db } from "@/lib/db";
 import { getOrganizationLimit } from "@/actions/get-organization-limit/get-organization-limit";
+import { checkSubscription } from "@/actions/check-subscription/check-subscription";
 import { OrganizationInfo } from "@/components/organization-info/organization-info";
 import { NewBoardButton } from "@/components/new-board-button/new-board-button";
 import { Separator } from "@/components/ui/separator";
@@ -20,11 +21,12 @@ const OrganizationIdPage = async ({ params }: { params: Props }) => {
     },
   });
 
+  const isPro = await checkSubscription();
   const organizationLimit = await getOrganizationLimit();
 
   return (
     <section>
-      <OrganizationInfo />
+      <OrganizationInfo isPro={isPro} />
       <Separator className="my-4" />
       <h1 className="mb-4 text-xl font-semibold">Boards</h1>
       <div className="grid grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] gap-6">
@@ -39,7 +41,7 @@ const OrganizationIdPage = async ({ params }: { params: Props }) => {
             <h2 className="relative font-semibold">{board.title}</h2>
           </Link>
         ))}
-        <NewBoardButton organizationLimit={organizationLimit} />
+        <NewBoardButton isPro={isPro} organizationLimit={organizationLimit} />
       </div>
     </section>
   );

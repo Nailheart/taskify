@@ -61,20 +61,23 @@ const NewListButton: FC<Props> = ({ boardId, canvasRef }: Props) => {
 
   const onSubmit = async (data: FieldValues) => {
     const title = data.title;
-
     if (!title) return;
 
-    const { type, message } = await createList({ title, boardId });
+    try {
+      const { type, message } = await createList({ title, boardId });
 
-    if (type === "error") {
-      toast.error(message);
-      return;
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
+      form.setFocus("title");
+      form.reset();
+      handleSrollToRight();
+      toast.success(message);
+    } catch (error) {
+      toast.error("Uh oh! Something went wrong.");
     }
-
-    form.setFocus("title");
-    form.reset();
-    handleSrollToRight();
-    toast.success(message);
   };
 
   if (isEditing) {

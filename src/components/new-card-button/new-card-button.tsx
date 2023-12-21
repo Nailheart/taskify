@@ -56,20 +56,24 @@ const NewCardButton: FC<Props> = ({ boardId, listId }: Props) => {
     const title = data.title;
     if (!title) return;
 
-    const { type, message } = await createCard({
-      cardTitle: title,
-      boardId,
-      listId,
-    });
+    try {
+      const { type, message } = await createCard({
+        cardTitle: title,
+        boardId,
+        listId,
+      });
 
-    if (type === "error") {
-      toast.error(message);
-      return;
+      if (type === "error") {
+        toast.error(message);
+        return;
+      }
+
+      form.setFocus("title");
+      form.reset();
+      toast.success(message);
+    } catch (error) {
+      toast.error("Uh oh! Something went wrong.");
     }
-
-    form.setFocus("title");
-    form.reset();
-    toast.success(message);
   };
 
   if (isEditing) {
