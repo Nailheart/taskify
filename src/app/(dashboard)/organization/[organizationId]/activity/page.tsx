@@ -38,7 +38,7 @@ const ActibityPage = async () => {
           </ul>
         ) : (
           <p className="text-center text-muted-foreground">
-            Maybe you'll be lucky next time. Try again later
+            Maybe you&apos;ll be lucky next time. Try again later
           </p>
         )}
       </div>
