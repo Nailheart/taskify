@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 const MarketingPage = () => {
   return (
-    <section className="text-center">
+    <section className="flex h-full items-center justify-center text-center">
       <div className="container">
         <h1
           className={cn(
@@ -15,7 +15,7 @@ const MarketingPage = () => {
           )}
         >
           Taskify help teams
-          <span className="mt-3 inline-block rounded-md bg-gradient-to-r from-fuchsia-600 to-pink-600 p-2 px-4 text-3xl text-white md:mt-6 md:text-6xl">
+          <span className="mt-3 inline-block animate-bounce rounded-md bg-gradient-to-bl from-rose-400 to-orange-400 p-2 px-4 text-3xl text-white md:mt-6 md:text-6xl">
             move forward.
           </span>
         </h1>
